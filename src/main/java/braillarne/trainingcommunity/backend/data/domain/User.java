@@ -5,9 +5,10 @@
 
 package braillarne.trainingcommunity.backend.data.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -44,11 +45,21 @@ public class User {
 		this.password = password;
 	}
 
+	public List<Exercise> getExercises() {
+		return exercises;
+	}
+
+	public void setExercises(List<Exercise> exercises) {
+		this.exercises = exercises;
+	}
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String name;
 	private String email;
 	private String password;
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+	@JsonIgnoreProperties("user")
+	private List<Exercise> exercises;
 
 }
